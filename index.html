@@ -3,20 +3,20 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#101714">
+  <meta name="theme-color" content="#f4f0e7">
   <meta name="description" content="Consulte combinações de tarot e explore o significado das cartas em uma biblioteca interativa.">
   <title>Tarot — guia e combinações</title>
   <style>
     :root {
-      color-scheme: dark;
-      --ink: #f3f0e7;
-      --muted: #a7aaa0;
-      --gold: #d8b66a;
-      --gold-light: #f0d99c;
-      --green: #a8b99e;
-      --night: #101714;
-      --panel: #171f1b;
-      --line: rgba(216, 182, 106, .2);
+      color-scheme: light;
+      --ink: #26251f;
+      --muted: #777166;
+      --gold: #8a6340;
+      --gold-light: #64462d;
+      --green: #56745b;
+      --night: #f4f0e7;
+      --panel: #fbf9f3;
+      --line: rgba(91, 69, 47, .2);
       --serif: Georgia, "Times New Roman", serif;
       font-family: "Segoe UI", sans-serif;
       background: var(--night);
@@ -30,8 +30,9 @@
       margin: 0;
       min-width: 320px;
       background:
-        radial-gradient(ellipse at 82% 7%, rgba(105, 125, 91, .13), transparent 34rem),
-        radial-gradient(ellipse at 14% 20%, rgba(216, 182, 106, .08), transparent 30rem),
+        radial-gradient(ellipse at 82% 7%, rgba(133, 113, 79, .1), transparent 34rem),
+        radial-gradient(ellipse at 14% 20%, rgba(156, 121, 78, .09), transparent 30rem),
+        repeating-linear-gradient(0deg, rgba(80, 63, 40, .012) 0, rgba(80, 63, 40, .012) 1px, transparent 1px, transparent 4px),
         var(--night);
     }
 
@@ -45,7 +46,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid rgba(255, 255, 255, .08);
+      border-bottom: 1px solid var(--line);
     }
     .brand {
       display: inline-flex;
@@ -91,7 +92,7 @@
       border: 1px solid var(--line);
       border-radius: 8px;
       background: var(--panel);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, .3);
+      box-shadow: 0 16px 34px rgba(45, 36, 24, .12);
     }
     .menu-links a {
       display: block;
@@ -102,7 +103,7 @@
       text-decoration: none;
     }
     .menu-links a:hover, .menu-links a:focus-visible {
-      background: rgba(216, 182, 106, .09);
+      background: rgba(138, 99, 64, .09);
       color: var(--gold-light);
     }
 
@@ -114,6 +115,7 @@
       gap: 48px;
       padding-block: 58px 54px;
     }
+    .hero > div { max-width: 570px; }
     .eyebrow, .section-kicker {
       margin: 0 0 18px;
       color: var(--gold);
@@ -136,7 +138,7 @@
     .hero-copy {
       max-width: 480px;
       margin-bottom: 28px;
-      color: #bdc0b6;
+      color: #625f56;
       font-size: 15px;
       line-height: 1.8;
     }
@@ -147,20 +149,31 @@
       color: var(--gold-light);
       font-size: 13px;
       text-decoration: none;
+      transition: color .2s ease, transform .2s ease;
     }
-    .hero-link:hover { color: white; }
+    .hero-link:hover { color: var(--ink); transform: translateY(-1px); }
     .hero-link span { font-size: 18px; }
     .hero-actions { display: flex; flex-wrap: wrap; gap: 22px; }
+    .hero-link:first-child {
+      padding: 11px 15px;
+      border: 1px solid var(--gold);
+      border-radius: 999px;
+      background: var(--gold);
+      color: #fffdf7;
+    }
+    .hero-link:first-child:hover { background: var(--gold-light); }
 
     .spread-wrap {
       position: relative;
       justify-self: end;
       width: min(100%, 410px);
+      overflow: hidden;
+      border-radius: 16px;
     }
     .spread-wrap::before {
       position: absolute;
       inset: 12% 8%;
-      border: 1px solid rgba(216, 182, 106, .23);
+      border: 1px solid rgba(91, 69, 47, .23);
       border-radius: 50%;
       content: "";
       transform: rotate(-14deg);
@@ -169,9 +182,9 @@
       position: relative;
       display: block;
       width: 100%;
-      border: 1px solid rgba(216, 182, 106, .4);
+      border: 1px solid rgba(91, 69, 47, .28);
       border-radius: 15px;
-      box-shadow: 0 22px 80px rgba(0, 0, 0, .3);
+      box-shadow: 0 22px 60px rgba(45, 36, 24, .15);
     }
     .spread-caption {
       margin: 12px 4px 0;
@@ -214,12 +227,13 @@
       gap: 16px;
       padding: 20px 22px;
       border: 1px solid var(--line);
-      border-radius: 10px;
-      background: rgba(255, 255, 255, .025);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .55);
       cursor: pointer;
       list-style: none;
+      transition: border-color .2s ease, background-color .2s ease;
     }
-    .library-toggle:hover { border-color: rgba(216, 182, 106, .5); }
+    .library-toggle:hover { border-color: rgba(138, 99, 64, .5); background: var(--panel); }
     .library-toggle-copy { display: grid; gap: 7px; }
     .library-toggle .section-kicker { margin: 0; }
     .library-toggle-title {
@@ -235,7 +249,7 @@
     .library-toggle-action::after { content: "  +"; font-size: 17px; }
     .library[open] .library-toggle {
       margin-bottom: 24px;
-      border-color: rgba(216, 182, 106, .35);
+      border-color: rgba(138, 99, 64, .35);
     }
     .library[open] .library-toggle-action::after { content: "  −"; }
     .library-content { padding-bottom: 34px; }
@@ -276,14 +290,14 @@
     .search, .polarity {
       width: 100%;
       min-height: 46px;
-      border: 1px solid rgba(255, 255, 255, .12);
+      border: 1px solid rgba(91, 69, 47, .2);
       border-radius: 8px;
       outline: none;
-      background: rgba(255, 255, 255, .035);
+      background: rgba(255, 255, 255, .62);
       color: var(--ink);
     }
     .search { padding: 0 14px 0 42px; }
-    .search::placeholder { color: #858a80; }
+    .search::placeholder { color: #898477; }
     .search:focus, .polarity:focus { border-color: var(--gold); }
     .polarity { padding: 0 12px; }
     .polarity option { background: var(--panel); }
@@ -298,11 +312,12 @@
       cursor: pointer;
       font-size: 12px;
       white-space: nowrap;
+      transition: background-color .2s ease, color .2s ease, border-color .2s ease;
     }
     .filter:hover { color: var(--ink); }
     .filter[aria-pressed="true"] {
       border-color: var(--line);
-      background: rgba(216, 182, 106, .09);
+      background: rgba(138, 99, 64, .09);
       color: var(--gold-light);
     }
 
@@ -313,16 +328,17 @@
     }
     .card {
       position: relative;
-      min-height: 230px;
+      min-height: 238px;
       overflow: hidden;
-      padding: 20px 18px 18px;
-      border: 1px solid rgba(216, 182, 106, .19);
-      border-radius: 10px;
+      padding: 22px 20px 20px;
+      border: 1px solid rgba(91, 69, 47, .17);
+      border-radius: 14px;
       background:
-        radial-gradient(ellipse at 100% 0%, rgba(168, 185, 158, .09), transparent 56%),
-        linear-gradient(150deg, rgba(255, 255, 255, .035), transparent 70%),
+        radial-gradient(ellipse at 100% 0%, rgba(138, 99, 64, .07), transparent 56%),
+        linear-gradient(150deg, rgba(255, 255, 255, .6), transparent 70%),
         var(--panel);
-      transition: border-color .2s ease, transform .2s ease, background-color .2s ease;
+      box-shadow: 0 8px 22px rgba(45, 36, 24, .035);
+      transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
     }
     .card::after {
       position: absolute;
@@ -330,13 +346,17 @@
       bottom: -52px;
       width: 114px;
       height: 114px;
-      border: 1px solid rgba(216, 182, 106, .1);
+      border: 1px solid rgba(91, 69, 47, .1);
       border-radius: 50%;
       content: "";
-      box-shadow: 0 0 0 10px rgba(216, 182, 106, .025), 0 0 0 21px rgba(216, 182, 106, .02);
+      box-shadow: 0 0 0 10px rgba(91, 69, 47, .025), 0 0 0 21px rgba(91, 69, 47, .02);
       pointer-events: none;
     }
-    .card:hover { border-color: rgba(216, 182, 106, .5); transform: translateY(-3px); }
+    .card:hover {
+      border-color: rgba(138, 99, 64, .5);
+      box-shadow: 0 16px 30px rgba(45, 36, 24, .09);
+      transform: translateY(-3px);
+    }
     .card-top {
       display: flex;
       align-items: center;
@@ -379,12 +399,12 @@
     .essence, .meaning {
       position: relative;
       z-index: 1;
-      color: #b6bbb1;
+      color: #55534b;
       font-size: 12px;
       line-height: 1.65;
     }
     .essence { margin-bottom: 8px; }
-    .meaning { margin-bottom: 0; color: #8f968c; }
+    .meaning { margin-bottom: 0; color: #716d63; }
     .empty-state, .error-state {
       grid-column: 1 / -1;
       padding: 36px 20px;
@@ -393,15 +413,16 @@
       color: var(--muted);
       text-align: center;
     }
-    .error-state { color: #e2a89b; }
+    .error-state { color: #963f34; }
 
     .reading {
       margin-bottom: 68px;
       padding: clamp(24px, 4vw, 42px);
       border: 1px solid var(--line);
-      border-radius: 12px;
+      border-radius: 18px;
+      box-shadow: 0 14px 40px rgba(45, 36, 24, .045);
       background:
-        radial-gradient(ellipse at 100% 0%, rgba(168, 185, 158, .08), transparent 55%),
+        radial-gradient(ellipse at 100% 0%, rgba(138, 99, 64, .07), transparent 55%),
         var(--panel);
     }
     .reading-heading { max-width: 680px; }
@@ -432,10 +453,10 @@
       width: 100%;
       min-height: 46px;
       padding: 0 12px;
-      border: 1px solid rgba(255, 255, 255, .12);
-      border-radius: 8px;
+      border: 1px solid rgba(91, 69, 47, .2);
+      border-radius: 9px;
       outline: none;
-      background: rgba(255, 255, 255, .035);
+      background: rgba(255, 255, 255, .62);
       color: var(--ink);
       font-size: 13px;
       letter-spacing: normal;
@@ -449,7 +470,7 @@
       border: 1px solid var(--gold);
       border-radius: 7px;
       background: var(--gold);
-      color: #171812;
+      color: #fffdf7;
       cursor: pointer;
       font-size: 12px;
       font-weight: 650;
@@ -458,7 +479,7 @@
       background: transparent;
       color: var(--gold-light);
     }
-    .reading-button:hover:not(:disabled) { filter: brightness(1.08); }
+    .reading-button:hover:not(:disabled) { filter: brightness(.92); }
     .reading-button:disabled { cursor: not-allowed; opacity: .5; }
     .reading-status {
       min-height: 20px;
@@ -471,9 +492,9 @@
     .reading-result:empty { display: none; }
     .reading-result-card {
       padding: 22px;
-      border: 1px solid rgba(216, 182, 106, .24);
+      border: 1px solid rgba(91, 69, 47, .24);
       border-radius: 9px;
-      background: rgba(0, 0, 0, .12);
+      background: rgba(255, 255, 255, .62);
     }
     .reading-result-top {
       display: flex;
@@ -485,7 +506,7 @@
     .reading-cards { display: flex; flex-wrap: wrap; gap: 8px; }
     .reading-card-name {
       padding: 7px 10px;
-      border: 1px solid rgba(216, 182, 106, .2);
+      border: 1px solid rgba(91, 69, 47, .2);
       border-radius: 20px;
       color: var(--gold-light);
       font-family: var(--serif);
@@ -495,7 +516,7 @@
       flex: 0 0 auto;
       padding: 7px 10px;
       border-radius: 20px;
-      background: rgba(216, 182, 106, .1);
+      background: rgba(138, 99, 64, .1);
       color: var(--gold-light);
       font-size: 10px;
       letter-spacing: .09em;
@@ -510,7 +531,7 @@
     .reading-keywords strong { color: var(--muted); font-weight: 500; }
     .reading-copy {
       margin-bottom: 0;
-      color: #c4c8bd;
+      color: #4f4d45;
       font-size: 14px;
       line-height: 1.8;
     }
@@ -522,9 +543,9 @@
     }
     .reading-position {
       padding: 13px 14px;
-      border: 1px solid rgba(216, 182, 106, .16);
+      border: 1px solid rgba(91, 69, 47, .16);
       border-radius: 7px;
-      background: rgba(255, 255, 255, .025);
+      background: rgba(255, 255, 255, .5);
     }
     .reading-position h3 {
       margin-bottom: 6px;
@@ -543,7 +564,7 @@
     }
     .reading-position p {
       margin-bottom: 0;
-      color: #aeb4a9;
+      color: #625f56;
       font-size: 12px;
       line-height: 1.7;
     }
@@ -555,9 +576,9 @@
     }
     .reading-advice article {
       padding: 13px 14px;
-      border: 1px solid rgba(255, 255, 255, .07);
+      border: 1px solid rgba(91, 69, 47, .12);
       border-radius: 7px;
-      background: rgba(255, 255, 255, .025);
+      background: rgba(255, 255, 255, .5);
     }
     .reading-advice h3 {
       margin-bottom: 6px;
@@ -568,15 +589,15 @@
     }
     .reading-advice p {
       margin-bottom: 0;
-      color: #aeb4a9;
+      color: #625f56;
       font-size: 12px;
       line-height: 1.7;
     }
 
     footer {
       padding-block: 22px;
-      border-top: 1px solid rgba(255, 255, 255, .08);
-      color: #858a80;
+      border-top: 1px solid var(--line);
+      color: #777166;
       font-size: 11px;
       line-height: 1.7;
       text-align: center;
