@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#101714">
-  <meta name="description" content="Explore as cartas do tarot: palavras-chave, essências e significados em um guia visual e interativo.">
-  <title>Tarot — guia de significados</title>
+  <meta name="description" content="Consulte combinações de tarot e explore o significado das cartas em uma biblioteca interativa.">
+  <title>Tarot — guia e combinações</title>
   <style>
     :root {
       color-scheme: dark;
@@ -64,6 +64,47 @@
       letter-spacing: .16em;
       text-transform: uppercase;
     }
+    .site-menu { position: relative; }
+    .site-menu > summary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 13px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      color: var(--gold-light);
+      cursor: pointer;
+      font-size: 12px;
+      list-style: none;
+    }
+    .site-menu > summary::-webkit-details-marker,
+    .library-toggle::-webkit-details-marker { display: none; }
+    .site-menu > summary::after { content: "⌄"; font-size: 15px; }
+    .site-menu[open] > summary::after { content: "⌃"; }
+    .menu-links {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      z-index: 5;
+      min-width: 190px;
+      padding: 6px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, .3);
+    }
+    .menu-links a {
+      display: block;
+      padding: 10px;
+      border-radius: 5px;
+      color: var(--ink);
+      font-size: 12px;
+      text-decoration: none;
+    }
+    .menu-links a:hover, .menu-links a:focus-visible {
+      background: rgba(216, 182, 106, .09);
+      color: var(--gold-light);
+    }
 
     .hero {
       min-height: 410px;
@@ -109,6 +150,7 @@
     }
     .hero-link:hover { color: white; }
     .hero-link span { font-size: 18px; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 22px; }
 
     .spread-wrap {
       position: relative;
@@ -164,7 +206,39 @@
       text-transform: uppercase;
     }
 
-    .library { padding-bottom: 82px; }
+    .library { padding-bottom: 48px; }
+    .library-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 22px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, .025);
+      cursor: pointer;
+      list-style: none;
+    }
+    .library-toggle:hover { border-color: rgba(216, 182, 106, .5); }
+    .library-toggle-copy { display: grid; gap: 7px; }
+    .library-toggle .section-kicker { margin: 0; }
+    .library-toggle-title {
+      font-family: var(--serif);
+      font-size: clamp(22px, 3vw, 30px);
+      font-weight: 400;
+    }
+    .library-toggle-action {
+      flex: 0 0 auto;
+      color: var(--gold-light);
+      font-size: 12px;
+    }
+    .library-toggle-action::after { content: "  +"; font-size: 17px; }
+    .library[open] .library-toggle {
+      margin-bottom: 24px;
+      border-color: rgba(216, 182, 106, .35);
+    }
+    .library[open] .library-toggle-action::after { content: "  −"; }
+    .library-content { padding-bottom: 34px; }
     .library-heading {
       display: flex;
       align-items: end;
@@ -321,6 +395,184 @@
     }
     .error-state { color: #e2a89b; }
 
+    .reading {
+      margin-bottom: 68px;
+      padding: clamp(24px, 4vw, 42px);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background:
+        radial-gradient(ellipse at 100% 0%, rgba(168, 185, 158, .08), transparent 55%),
+        var(--panel);
+    }
+    .reading-heading { max-width: 680px; }
+    .reading-heading .section-kicker { margin-bottom: 8px; }
+    .reading-heading h2 { margin-bottom: 12px; }
+    .reading-description, .reading-note {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .reading-description { margin-bottom: 0; }
+    .reading-form { margin-top: 24px; }
+    .reading-controls {
+      display: grid;
+      grid-template-columns: minmax(140px, 1.1fr) minmax(130px, .9fr) repeat(5, minmax(100px, 1fr));
+      gap: 12px;
+    }
+    .reading-control {
+      display: grid;
+      align-content: start;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: .05em;
+    }
+    .reading-control[hidden] { display: none; }
+    .reading-select {
+      width: 100%;
+      min-height: 46px;
+      padding: 0 12px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 8px;
+      outline: none;
+      background: rgba(255, 255, 255, .035);
+      color: var(--ink);
+      font-size: 13px;
+      letter-spacing: normal;
+    }
+    .reading-select:focus { border-color: var(--gold); }
+    .reading-select option { background: var(--panel); color: var(--ink); }
+    .reading-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+    .reading-button {
+      min-height: 44px;
+      padding: 0 17px;
+      border: 1px solid var(--gold);
+      border-radius: 7px;
+      background: var(--gold);
+      color: #171812;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 650;
+    }
+    .reading-button.secondary {
+      background: transparent;
+      color: var(--gold-light);
+    }
+    .reading-button:hover:not(:disabled) { filter: brightness(1.08); }
+    .reading-button:disabled { cursor: not-allowed; opacity: .5; }
+    .reading-status {
+      min-height: 20px;
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+    .reading-result { margin-top: 18px; }
+    .reading-result:empty { display: none; }
+    .reading-result-card {
+      padding: 22px;
+      border: 1px solid rgba(216, 182, 106, .24);
+      border-radius: 9px;
+      background: rgba(0, 0, 0, .12);
+    }
+    .reading-result-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .reading-cards { display: flex; flex-wrap: wrap; gap: 8px; }
+    .reading-card-name {
+      padding: 7px 10px;
+      border: 1px solid rgba(216, 182, 106, .2);
+      border-radius: 20px;
+      color: var(--gold-light);
+      font-family: var(--serif);
+      font-size: 14px;
+    }
+    .reading-tone {
+      flex: 0 0 auto;
+      padding: 7px 10px;
+      border-radius: 20px;
+      background: rgba(216, 182, 106, .1);
+      color: var(--gold-light);
+      font-size: 10px;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+    .reading-keywords {
+      margin-bottom: 12px;
+      color: var(--gold-light);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+    .reading-keywords strong { color: var(--muted); font-weight: 500; }
+    .reading-copy {
+      margin-bottom: 0;
+      color: #c4c8bd;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    .reading-positions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .reading-position {
+      padding: 13px 14px;
+      border: 1px solid rgba(216, 182, 106, .16);
+      border-radius: 7px;
+      background: rgba(255, 255, 255, .025);
+    }
+    .reading-position h3 {
+      margin-bottom: 6px;
+      color: var(--gold);
+      font-size: 10px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .reading-position strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--gold-light);
+      font-family: var(--serif);
+      font-size: 14px;
+      font-weight: 400;
+    }
+    .reading-position p {
+      margin-bottom: 0;
+      color: #aeb4a9;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+    .reading-advice {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .reading-advice article {
+      padding: 13px 14px;
+      border: 1px solid rgba(255, 255, 255, .07);
+      border-radius: 7px;
+      background: rgba(255, 255, 255, .025);
+    }
+    .reading-advice h3 {
+      margin-bottom: 6px;
+      color: var(--gold);
+      font-size: 10px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .reading-advice p {
+      margin-bottom: 0;
+      color: #aeb4a9;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
     footer {
       padding-block: 22px;
       border-top: 1px solid rgba(255, 255, 255, .08);
@@ -336,6 +588,7 @@
       .filters { grid-row: 2; grid-column: 1 / -1; }
       .filter { flex: 1; }
       .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .reading-controls { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
     @media (max-width: 600px) {
       .shell { width: min(100% - 32px, 440px); }
@@ -360,6 +613,10 @@
       .filters { grid-row: auto; grid-column: auto; overflow-x: auto; padding-bottom: 2px; }
       .filter { flex: 1 0 auto; padding-inline: 10px; }
       .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+      .reading-controls { grid-template-columns: 1fr; }
+      .reading { margin-bottom: 48px; }
+      .reading-result-card { padding: 16px; }
+      .reading-result-top { align-items: flex-start; flex-direction: column; }
       .card { min-height: 226px; padding: 16px 14px; }
       .card h3 { font-size: 20px; }
       .card-top { align-items: flex-start; flex-direction: column; gap: 7px; margin-bottom: 17px; }
@@ -378,6 +635,13 @@
   <header class="shell topbar">
     <a class="brand" href="#" aria-label="Tarot, início"><span class="brand-mark" aria-hidden="true">✳</span> ARCANA</a>
     <span class="top-note">Um guia para sua jornada</span>
+    <details class="site-menu">
+      <summary>Menu</summary>
+      <nav class="menu-links" aria-label="Menu principal">
+        <a href="#tiragem">Fazer uma tiragem</a>
+        <a href="#biblioteca" data-open-library>Consultar cartas</a>
+      </nav>
+    </details>
   </header>
 
   <main>
@@ -386,7 +650,10 @@
         <p class="eyebrow">Símbolos · Intuição · Descoberta</p>
         <h1 id="page-title">As cartas contam <span>histórias.</span></h1>
         <p class="hero-copy">Um espaço para explorar os arquétipos do tarot, descobrir suas palavras-chave e encontrar novos sentidos em cada leitura.</p>
-        <a class="hero-link" href="#biblioteca">Explore as cartas <span aria-hidden="true">↓</span></a>
+        <div class="hero-actions">
+          <a class="hero-link" href="#tiragem">Faça uma tiragem <span aria-hidden="true">↓</span></a>
+          <a class="hero-link" href="#biblioteca" data-open-library>Explore as cartas <span aria-hidden="true">↓</span></a>
+        </div>
       </div>
       <figure class="spread-wrap">
         <img src="Cruz%20de%205.jpg" alt="Diagrama da tiragem Cruz de cinco posições: situação, desafio, base, passado recente e resultado" width="728" height="512">
@@ -400,39 +667,111 @@
       <div class="stat"><strong id="suit-count">—</strong><span>naipes</span></div>
     </section>
 
-    <section class="shell library" id="biblioteca" aria-labelledby="library-title">
-      <div class="library-heading">
-        <div>
-          <p class="section-kicker">Seu mapa de símbolos</p>
-          <h2 id="library-title">Biblioteca de cartas</h2>
-        </div>
-        <p class="result-count" id="result-count" aria-live="polite">Carregando cartas…</p>
+    <section class="shell reading" id="tiragem" aria-labelledby="reading-title">
+      <div class="reading-heading">
+        <p class="section-kicker">Uma consulta, três ou cinco cartas</p>
+        <h2 id="reading-title">Leia a combinação</h2>
+        <p class="reading-description">Escolha três cartas para uma síntese ou cinco cartas para consultar as 658.008 combinações do baralho completo e receber também a leitura da Cruz de cinco posições.</p>
       </div>
-
-      <div class="controls">
-        <label class="search-wrap">
-          <span class="search-icon" aria-hidden="true">⌕</span>
-          <span hidden>Buscar cartas</span>
-          <input class="search" id="search" type="search" placeholder="Busque por nome ou significado…" autocomplete="off">
-        </label>
-        <div class="filters" role="group" aria-label="Filtrar por tipo de carta">
-          <button class="filter" type="button" data-group="todos" aria-pressed="true">Todas</button>
-          <button class="filter" type="button" data-group="maior" aria-pressed="false">Maiores</button>
-          <button class="filter" type="button" data-group="menor" aria-pressed="false">Menores</button>
-          <button class="filter" type="button" data-group="especial" aria-pressed="false">Especiais</button>
+      <form class="reading-form" id="reading-form">
+        <div class="reading-controls">
+          <label class="reading-control">
+            <span>Baralho</span>
+            <select class="reading-select" id="reading-deck" disabled>
+              <option value="major">Arcanos Maiores (22)</option>
+              <option value="mixed">Baralho completo (40)</option>
+            </select>
+          </label>
+          <label class="reading-control">
+            <span>Quantidade</span>
+            <select class="reading-select" id="reading-count" disabled>
+              <option value="3">3 cartas</option>
+              <option value="5">5 cartas · Cruz</option>
+            </select>
+          </label>
+          <label class="reading-control">
+            <span class="reading-position-label">Carta 1</span>
+            <select class="reading-select reading-card-select" required disabled>
+              <option value="">Escolha uma carta</option>
+            </select>
+          </label>
+          <label class="reading-control">
+            <span class="reading-position-label">Carta 2</span>
+            <select class="reading-select reading-card-select" required disabled>
+              <option value="">Escolha uma carta</option>
+            </select>
+          </label>
+          <label class="reading-control">
+            <span class="reading-position-label">Carta 3</span>
+            <select class="reading-select reading-card-select" required disabled>
+              <option value="">Escolha uma carta</option>
+            </select>
+          </label>
+          <label class="reading-control" hidden>
+            <span class="reading-position-label">Carta 4</span>
+            <select class="reading-select reading-card-select" disabled>
+              <option value="">Escolha uma carta</option>
+            </select>
+          </label>
+          <label class="reading-control" hidden>
+            <span class="reading-position-label">Carta 5</span>
+            <select class="reading-select reading-card-select" disabled>
+              <option value="">Escolha uma carta</option>
+            </select>
+          </label>
         </div>
-        <label>
-          <span hidden>Filtrar por polaridade</span>
-          <select class="polarity" id="polarity">
-            <option value="todas">Todas as polaridades</option>
-            <option value="positivo">Positiva</option>
-            <option value="neutro">Neutra</option>
-            <option value="negativo">Negativa</option>
-          </select>
-        </label>
-      </div>
+        <div class="reading-actions">
+          <button class="reading-button" type="submit" disabled>Ver combinação</button>
+          <button class="reading-button secondary" type="button" id="random-reading" disabled>Sortear cartas</button>
+        </div>
+      </form>
+      <p class="reading-status" id="reading-status" role="status" aria-live="polite">Carregando cartas…</p>
+      <div class="reading-result" id="reading-result" aria-live="polite" aria-busy="false"></div>
+    </section>
 
-      <div class="cards" id="cards" aria-live="polite" aria-busy="true"></div>
+    <section class="shell library" id="biblioteca" aria-label="Biblioteca de cartas">
+      <details class="library-menu">
+        <summary class="library-toggle">
+          <span class="library-toggle-copy">
+            <span class="section-kicker">Seu mapa de símbolos</span>
+            <span class="library-toggle-title">Consultar a biblioteca de cartas</span>
+          </span>
+          <span class="library-toggle-action">Abrir consulta</span>
+        </summary>
+        <div class="library-content">
+          <div class="library-heading">
+            <div>
+              <h2 id="library-title">Biblioteca de cartas</h2>
+            </div>
+            <p class="result-count" id="result-count" aria-live="polite">Carregando cartas…</p>
+          </div>
+
+          <div class="controls">
+            <label class="search-wrap">
+              <span class="search-icon" aria-hidden="true">⌕</span>
+              <span hidden>Buscar cartas</span>
+              <input class="search" id="search" type="search" placeholder="Busque por nome ou significado…" autocomplete="off">
+            </label>
+            <div class="filters" role="group" aria-label="Filtrar por tipo de carta">
+              <button class="filter" type="button" data-group="todos" aria-pressed="true">Todas</button>
+              <button class="filter" type="button" data-group="maior" aria-pressed="false">Maiores</button>
+              <button class="filter" type="button" data-group="menor" aria-pressed="false">Menores</button>
+              <button class="filter" type="button" data-group="especial" aria-pressed="false">Especiais</button>
+            </div>
+            <label>
+              <span hidden>Filtrar por polaridade</span>
+              <select class="polarity" id="polarity">
+                <option value="todas">Todas as polaridades</option>
+                <option value="positivo">Positiva</option>
+                <option value="neutro">Neutra</option>
+                <option value="negativo">Negativa</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="cards" id="cards" aria-live="polite" aria-busy="true"></div>
+        </div>
+      </details>
     </section>
   </main>
 
@@ -442,16 +781,268 @@
 
   <script>
     const cardsContainer = document.querySelector("#cards");
+    const libraryMenu = document.querySelector(".library-menu");
+    const siteMenu = document.querySelector(".site-menu");
     const searchInput = document.querySelector("#search");
     const polaritySelect = document.querySelector("#polarity");
     const resultCount = document.querySelector("#result-count");
     const filterButtons = [...document.querySelectorAll(".filter")];
+    const readingForm = document.querySelector("#reading-form");
+    const readingDeck = document.querySelector("#reading-deck");
+    const readingCount = document.querySelector("#reading-count");
+    const readingCardSelects = [...document.querySelectorAll(".reading-card-select")];
+    const readingStatus = document.querySelector("#reading-status");
+    const readingResult = document.querySelector("#reading-result");
+    const randomReadingButton = document.querySelector("#random-reading");
     let tarotCards = [];
     let activeGroup = "todos";
+    const combinationData = { major: null, mixed: null };
+    const FIVE_CARD_COMBINATION_COUNT = 658008;
+    const fiveCardPositionNames = ["Situação", "Desafio", "Base (inconsciente)", "Passado recente", "Resultado"];
+    const fiveCardPositionMeanings = {
+      maior: [
+        "A questão é regida por uma força do destino; o tema é grande e inevitável.",
+        "O obstáculo é uma lição de vida; não se resolve por força bruta.",
+        "Raiz profunda: um padrão de destino ou crença maior move a questão.",
+        "Um evento marcante e inevitável moldou o momento.",
+        "Desfecho nas mãos do destino; peso máximo na leitura."
+      ],
+      menor: [
+        "A situação é prática e do cotidiano; o naipe indica a área (Paus: trabalho, Copas: amor, Ouros: dinheiro, Espadas: conflitos).",
+        "Obstáculo concreto do dia a dia; figuras da corte apontam a pessoa que dificulta.",
+        "Raiz prática: hábitos, rotinas ou pessoas próximas sustentam a situação.",
+        "Acontecimentos cotidianos recentes explicam o presente.",
+        "Desfecho prático, moldável pelas suas ações."
+      ],
+      especial: [
+        "A questão gira em torno de ganho (Riqueza) ou renovação (Vida).",
+        "O desafio é não desperdiçar a oportunidade ou a energia vital.",
+        "No fundo, a questão fala de segurança material ou vitalidade.",
+        "Ganho ou recuperação recente influencia o agora.",
+        "Desfecho próspero (Riqueza) ou de recomeço (Vida)."
+      ]
+    };
+    const fiveCardToneDescriptions = {
+      "Muito favorável": "As cinco energias convergem para um resultado próspero e maduro.",
+      "Favorável": "O conjunto favorece o avanço, desde que se mantenha consciência nos detalhes.",
+      "Misto": "Há avanço com pontos de atenção: a energia desafiadora pede cautela e honestidade.",
+      "Neutro": "O momento pede observação e equilíbrio antes de grandes decisões.",
+      "Tenso": "O conjunto aponta tensões a enfrentar; as energias positivas indicam o caminho de saída.",
+      "Desafiador": "O conjunto aponta um período de provas: encarar os obstáculos com lucidez é o caminho."
+    };
+    const fiveCardHighlights = {
+      0: "Destaque: O Louco marca um recomeço inesperado.",
+      10: "Destaque: A Roda da Fortuna marca virada de fase.",
+      13: "Destaque: A Morte marca transformação inevitável.",
+      16: "Destaque: A Torre marca ruptura libertadora.",
+      19: "Destaque: O Sol marca sucesso visível.",
+      21: "Destaque: O Mundo marca fechamento de ciclo.",
+      38: "Destaque: A Riqueza marca ganho material iminente.",
+      39: "Destaque: A Vida marca renovação e saúde."
+    };
+    const fiveCardAdvice = {
+      love: {
+        forte: "O amor está em destaque nesta tiragem: cultive os vínculos, expresse sentimentos e cuide das parcerias.",
+        presente: "O coração tem papel na questão: escute os sentimentos antes de tomar decisões.",
+        neutro: "O foco não está no amor agora: mantenha os vínculos em equilíbrio, sem grandes mudanças."
+      },
+      work: {
+        forte: "A carreira domina a cena: organize planos, aja com disciplina e busque reconhecimento.",
+        presente: "O trabalho aparece na questão: avance com método e clareza nos objetivos.",
+        neutro: "O momento pede menos foco profissional: mantenha a rotina e observe as oportunidades."
+      },
+      money: {
+        forte: "As finanças estão em jogo: planeje gastos, aproveite oportunidades e evite excessos.",
+        presente: "O dinheiro entra na leitura: avalie investimentos e gastos com atenção redobrada.",
+        neutro: "As finanças estão em equilíbrio: mantenha o controle habitual e evite riscos desnecessários."
+      }
+    };
 
     const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (character) => ({
       "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
     })[character]);
+
+    function cardsForReadingDeck() {
+      return readingDeck.value === "major"
+        ? tarotCards.filter((card) => card.grupo === "maior")
+        : tarotCards;
+    }
+
+    function binomial(n, k) {
+      if (k < 0 || k > n) return 0;
+      let result = 1;
+      for (let index = 1; index <= k; index++) {
+        result = result * (n - index + 1) / index;
+      }
+      return Math.round(result);
+    }
+
+    function getFiveCardCombinationNumber(cardIds) {
+      let rank = 0;
+      let previousId = -1;
+      cardIds.forEach((cardId, position) => {
+        for (let candidate = previousId + 1; candidate < cardId; candidate++) {
+          rank += binomial(40 - candidate - 1, 5 - position - 1);
+        }
+        previousId = cardId;
+      });
+      return rank + 1;
+    }
+
+    function createFiveCardResponse(cardIds) {
+      const cards = cardIds.map((id) => tarotCards.find((card) => card.id === id));
+      if (cards.some((card) => !card)) throw new Error("Uma das cartas selecionadas não existe no baralho carregado.");
+
+      const positiveCount = cards.filter((card) => card.polaridade === "positivo").length;
+      const challengingCount = cards.filter((card) => card.polaridade === "desafiador").length;
+      let tone;
+      if (challengingCount === 0) tone = positiveCount >= 3 ? "Muito favorável" : "Favorável";
+      else if (challengingCount === 1) tone = "Misto";
+      else if (challengingCount === 2) tone = positiveCount >= 1 ? "Tenso" : "Neutro";
+      else tone = "Desafiador";
+
+      const countAreaCards = (ids, suit) => cards.filter((card) => ids.includes(card.id) || card.naipe === suit).length;
+      const level = (points) => points >= 2 ? "forte" : points === 1 ? "presente" : "neutro";
+      const areaLevels = {
+        love: level(countAreaCards([3, 6, 15, 17, 18], "copas")),
+        work: level(countAreaCards([1, 4, 7, 8, 11], "paus")),
+        money: level(countAreaCards([3, 10, 15, 16, 19, 38], "ouros"))
+      };
+      const essentials = cards.map((card) => card.essencia);
+      const highlights = cards.map((card) => fiveCardHighlights[card.id]).filter(Boolean);
+      const reading = `Energias de ${essentials[0]}, combinadas com ${essentials[1]}, ${essentials[2]}, ${essentials[3]} e ${essentials[4]}. ${fiveCardToneDescriptions[tone]}${highlights.length ? ` ${highlights.join(" ")}` : ""}`;
+      const positions = readingCardSelects.slice(0, 5).map((select, index) => {
+        const card = tarotCards.find((item) => String(item.id) === select.value);
+        return {
+          name: fiveCardPositionNames[index],
+          card: card.nome,
+          meaning: fiveCardPositionMeanings[card.grupo][index]
+        };
+      });
+
+      return {
+        keywords: cards.map((card) => card.palavra_chave).join(" · "),
+        tone,
+        reading,
+        love: fiveCardAdvice.love[areaLevels.love],
+        work: fiveCardAdvice.work[areaLevels.work],
+        money: fiveCardAdvice.money[areaLevels.money],
+        combinationNumber: getFiveCardCombinationNumber(cardIds),
+        positions
+      };
+    }
+
+    function updateCardOptions() {
+      const deckCards = cardsForReadingDeck();
+      const selectedIds = readingCardSelects.map((select) => select.value);
+      readingCardSelects.forEach((select, index) => {
+        const selectedByOthers = new Set(selectedIds.filter((_, otherIndex) => otherIndex !== index));
+        select.replaceChildren(new Option("Escolha uma carta", ""));
+        deckCards.forEach((card) => {
+          const option = new Option(card.nome, String(card.id));
+          option.disabled = selectedByOthers.has(String(card.id));
+          select.add(option);
+        });
+        select.value = deckCards.some((card) => String(card.id) === selectedIds[index]) ? selectedIds[index] : "";
+      });
+    }
+
+    function clearReading() {
+      readingResult.replaceChildren();
+      readingResult.setAttribute("aria-busy", "false");
+      readingStatus.textContent = Number(readingCount.value) === 5
+        ? "A síntese considera a combinação; cada carta também será interpretada na sua posição da Cruz de cinco."
+        : "A leitura apresenta a síntese da combinação, sem atribuir significados a posições específicas.";
+    }
+
+    async function loadCombinationData(deck) {
+      if (combinationData[deck]) return combinationData[deck];
+      const filename = deck === "major" ? "./combinacoes-3-maiores.json" : "./combinacoes-3-mistas.json";
+      const response = await fetch(filename);
+      if (!response.ok) throw new Error(`Não foi possível carregar ${filename} (HTTP ${response.status}).`);
+      const data = await response.json();
+      if (!data || typeof data !== "object" || Array.isArray(data)) {
+        throw new Error(`O arquivo ${filename} não contém uma tabela de combinações válida.`);
+      }
+      combinationData[deck] = data;
+      return data;
+    }
+
+    function renderCombinationReading(response, selectedCards) {
+      const advice = [
+        ["Conselho prático", response.practical],
+        ["Amor", response.love],
+        ["Trabalho", response.work],
+        ["Dinheiro", response.money]
+      ].filter(([, text]) => text);
+
+      readingResult.innerHTML = `
+        <article class="reading-result-card">
+          <div class="reading-result-top">
+            <div class="reading-cards">${selectedCards.map((card) => `<span class="reading-card-name">${escapeHtml(card.nome)}</span>`).join("")}</div>
+            <span class="reading-tone">${escapeHtml(response.tone)}</span>
+          </div>
+          ${response.positions ? `
+            <div class="reading-positions">
+              ${response.positions.map((position) => `
+                <article class="reading-position">
+                  <h3>${escapeHtml(position.name)}</h3>
+                  <strong>${escapeHtml(position.card)}</strong>
+                  <p>${escapeHtml(position.meaning)}</p>
+                </article>`).join("")}
+            </div>
+            <p class="reading-keywords"><strong>Combinação na planilha · </strong>${response.combinationNumber.toLocaleString("pt-BR")} de ${FIVE_CARD_COMBINATION_COUNT.toLocaleString("pt-BR")}</p>` : ""}
+          <p class="reading-keywords"><strong>Palavras-chave · </strong>${escapeHtml(response.keywords)}</p>
+          <p class="reading-copy">${escapeHtml(response.reading)}</p>
+          <div class="reading-advice">${advice.map(([title, text]) => `
+            <article>
+              <h3>${escapeHtml(title)}</h3>
+              <p>${escapeHtml(text)}</p>
+            </article>`).join("")}
+          </div>
+        </article>`;
+    }
+
+    async function showCombinationReading() {
+      const count = Number(readingCount.value);
+      const selectedIds = readingCardSelects.slice(0, count).map((select) => select.value);
+      if (selectedIds.some((id) => !id) || new Set(selectedIds).size !== count) {
+        readingStatus.textContent = `Escolha ${count} cartas diferentes para consultar a combinação.`;
+        return;
+      }
+
+      const deck = readingDeck.value;
+      const key = selectedIds.map(Number).sort((a, b) => a - b).join(",");
+      readingResult.setAttribute("aria-busy", "true");
+      readingStatus.textContent = "Consultando a combinação…";
+      readingForm.querySelector('button[type="submit"]').disabled = true;
+      randomReadingButton.disabled = true;
+
+      try {
+        let response;
+        if (count === 5) {
+          response = createFiveCardResponse(selectedIds.map(Number).sort((a, b) => a - b));
+        } else {
+          const data = await loadCombinationData(deck);
+          response = data[key];
+        }
+        if (!response || typeof response.reading !== "string" || typeof response.tone !== "string") {
+          throw new Error(`A combinação ${key} não foi encontrada no arquivo de respostas.`);
+        }
+        const selectedCards = (count === 5 ? [...selectedIds].sort((a, b) => Number(a) - Number(b)) : selectedIds)
+          .map((id) => tarotCards.find((card) => String(card.id) === id));
+        renderCombinationReading(response, selectedCards);
+        readingStatus.textContent = "Combinação encontrada.";
+      } catch (error) {
+        console.error(error);
+        readingResult.innerHTML = '<p class="error-state">Não foi possível consultar esta combinação. Verifique se os arquivos de respostas estão na mesma pasta e tente novamente.</p>';
+        readingStatus.textContent = "Falha ao carregar a resposta da combinação.";
+      } finally {
+        readingResult.setAttribute("aria-busy", "false");
+        readingForm.querySelector('button[type="submit"]').disabled = false;
+        randomReadingButton.disabled = false;
+      }
+    }
 
     function renderCards() {
       const query = searchInput.value.trim().toLocaleLowerCase("pt-BR");
@@ -498,6 +1089,60 @@
     });
     searchInput.addEventListener("input", renderCards);
     polaritySelect.addEventListener("change", renderCards);
+    document.querySelectorAll("[data-open-library]").forEach((link) => {
+      link.addEventListener("click", () => {
+        libraryMenu.open = true;
+        if (siteMenu.contains(link)) siteMenu.open = false;
+      });
+    });
+    siteMenu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => { siteMenu.open = false; });
+    });
+    if (window.location.hash === "#biblioteca") libraryMenu.open = true;
+
+    readingDeck.addEventListener("change", () => {
+      readingCardSelects.forEach((select) => { select.value = ""; });
+      updateCardOptions();
+      clearReading();
+    });
+    readingCount.addEventListener("change", () => {
+      const usesFiveCards = Number(readingCount.value) === 5;
+      const majorOption = readingDeck.querySelector('option[value="major"]');
+      majorOption.disabled = usesFiveCards;
+      if (usesFiveCards) readingDeck.value = "mixed";
+      readingDeck.disabled = usesFiveCards;
+      readingCardSelects.forEach((select, index) => {
+        select.closest(".reading-control").hidden = index >= Number(readingCount.value);
+        select.required = index < Number(readingCount.value);
+        select.value = "";
+        const label = select.closest(".reading-control").querySelector(".reading-position-label");
+        label.textContent = usesFiveCards ? fiveCardPositionNames[index] : `Carta ${index + 1}`;
+      });
+      randomReadingButton.textContent = usesFiveCards ? "Sortear cinco cartas" : "Sortear três cartas";
+      updateCardOptions();
+      clearReading();
+    });
+    readingCardSelects.forEach((select) => select.addEventListener("change", () => {
+      updateCardOptions();
+      clearReading();
+    }));
+    readingForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      showCombinationReading();
+    });
+    randomReadingButton.addEventListener("click", () => {
+      const shuffled = [...cardsForReadingDeck()];
+      const count = Number(readingCount.value);
+      for (let index = 0; index < count; index++) {
+        const swapIndex = index + Math.floor(Math.random() * (shuffled.length - index));
+        [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+      }
+      readingCardSelects.forEach((select, index) => {
+        select.value = index < count ? String(shuffled[index].id) : "";
+      });
+      updateCardOptions();
+      showCombinationReading();
+    });
 
     fetch("./Tarot.txt")
       .then((response) => {
@@ -511,12 +1156,24 @@
         document.querySelector("#major-count").textContent = data.filter((card) => card.grupo === "maior").length;
         document.querySelector("#suit-count").textContent = new Set(data.map((card) => card.naipe).filter(Boolean)).size;
         renderCards();
+        readingDeck.disabled = false;
+        readingCount.disabled = false;
+        readingCardSelects.forEach((select) => { select.disabled = false; });
+        readingForm.querySelector('button[type="submit"]').disabled = false;
+        randomReadingButton.disabled = false;
+        updateCardOptions();
+        readingCardSelects.forEach((select, index) => {
+          select.closest(".reading-control").hidden = index >= Number(readingCount.value);
+        });
+        randomReadingButton.textContent = "Sortear três cartas";
+        clearReading();
       })
       .catch((error) => {
         console.error(error);
         resultCount.textContent = "Não foi possível carregar";
         cardsContainer.setAttribute("aria-busy", "false");
         cardsContainer.innerHTML = '<p class="error-state">Não foi possível carregar as cartas. Verifique se Tarot.txt está na mesma pasta e abra a página por um servidor web, como o GitHub Pages ou a extensão Live Server.</p>';
+        readingStatus.textContent = "Não foi possível carregar as cartas para a tiragem.";
       });
   </script>
 </body>
