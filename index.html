@@ -1129,8 +1129,7 @@
                   <strong>${escapeHtml(position.card)}</strong>
                   <p>${escapeHtml(position.meaning)}</p>
                 </article>`).join("")}
-            </div>
-            <p class="reading-keywords"><strong>Combinação na planilha · </strong>${response.combinationNumber.toLocaleString("pt-BR")} de ${FIVE_CARD_COMBINATION_COUNT.toLocaleString("pt-BR")}</p>` : ""}
+            </div>` : ""}
           <p class="reading-keywords"><strong>Palavras-chave · </strong>${escapeHtml(response.keywords)}</p>
           <p class="reading-copy">${escapeHtml(response.reading)}</p>
           ${selectedQuestion === "health" ? '<p class="reading-note">Esta leitura é reflexiva e não substitui a avaliação de um profissional de saúde.</p>' : ""}
