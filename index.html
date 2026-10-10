@@ -435,11 +435,7 @@
     }
     .reading-description { margin-bottom: 0; }
     .reading-form { margin-top: 24px; }
-    .reading-controls {
-      display: grid;
-      grid-template-columns: minmax(140px, 1.1fr) minmax(130px, .9fr) repeat(5, minmax(100px, 1fr));
-      gap: 12px;
-    }
+    .reading-controls { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
     .reading-control {
       display: grid;
       align-content: start;
@@ -511,16 +507,6 @@
       color: var(--gold-light);
       font-family: var(--serif);
       font-size: 14px;
-    }
-    .reading-tone {
-      flex: 0 0 auto;
-      padding: 7px 10px;
-      border-radius: 20px;
-      background: rgba(138, 99, 64, .1);
-      color: var(--gold-light);
-      font-size: 10px;
-      letter-spacing: .09em;
-      text-transform: uppercase;
     }
     .reading-keywords {
       margin-bottom: 12px;
@@ -690,15 +676,22 @@
 
     <section class="shell reading" id="tiragem" aria-labelledby="reading-title">
       <div class="reading-heading">
-        <p class="section-kicker">Uma consulta, três ou cinco cartas</p>
-        <h2 id="reading-title">Leia a combinação</h2>
-        <p class="reading-description">Escolha três cartas para uma síntese ou cinco cartas para consultar as 658.008 combinações do baralho completo e receber também a leitura da Cruz de cinco posições.</p>
+        <p class="section-kicker">Uma consulta, uma, três ou cinco cartas</p>
+        <h2 id="reading-title">Faça sua leitura</h2>
+          <p class="reading-description">Sorteie ou escolha manualmente uma, três ou cinco cartas. A saúde está disponível apenas em tiragens de uma carta.</p>
       </div>
       <form class="reading-form" id="reading-form">
         <div class="reading-controls">
           <label class="reading-control">
-            <span>Baralho</span>
-            <select class="reading-select" id="reading-deck" disabled>
+              <span>Modo de tiragem</span>
+              <select class="reading-select" id="reading-mode" disabled>
+                <option value="manual">Escolher cartas manualmente</option>
+                <option value="random">Sortear cartas</option>
+              </select>
+            </label>
+            <label class="reading-control">
+              <span>Baralho</span>
+              <select class="reading-select" id="reading-deck" disabled>
               <option value="major">Arcanos Maiores (22)</option>
               <option value="mixed">Baralho completo (40)</option>
             </select>
@@ -706,8 +699,19 @@
           <label class="reading-control">
             <span>Quantidade</span>
             <select class="reading-select" id="reading-count" disabled>
+              <option value="1">1 carta</option>
               <option value="3">3 cartas</option>
               <option value="5">5 cartas · Cruz</option>
+            </select>
+          </label>
+          <label class="reading-control">
+            <span>Tipo de leitura</span>
+            <select class="reading-select" id="reading-question" disabled>
+              <option value="complete">Completa · amor, trabalho e dinheiro</option>
+              <option value="love">Amor</option>
+              <option value="work">Trabalho</option>
+              <option value="money">Dinheiro</option>
+              <option value="health">Saúde · somente 1 carta</option>
             </select>
           </label>
           <label class="reading-control">
@@ -742,8 +746,8 @@
           </label>
         </div>
         <div class="reading-actions">
-          <button class="reading-button" type="submit" disabled>Ver combinação</button>
-          <button class="reading-button secondary" type="button" id="random-reading" disabled>Sortear cartas</button>
+          <button class="reading-button" type="submit" disabled>Ver leitura</button>
+          <button class="reading-button secondary" type="button" id="random-reading" hidden disabled>Sortear cartas</button>
         </div>
       </form>
       <p class="reading-status" id="reading-status" role="status" aria-live="polite">Carregando cartas…</p>
@@ -809,8 +813,10 @@
     const resultCount = document.querySelector("#result-count");
     const filterButtons = [...document.querySelectorAll(".filter")];
     const readingForm = document.querySelector("#reading-form");
+    const readingMode = document.querySelector("#reading-mode");
     const readingDeck = document.querySelector("#reading-deck");
     const readingCount = document.querySelector("#reading-count");
+    const readingQuestion = document.querySelector("#reading-question");
     const readingCardSelects = [...document.querySelectorAll(".reading-card-select")];
     const readingStatus = document.querySelector("#reading-status");
     const readingResult = document.querySelector("#reading-result");
@@ -950,12 +956,37 @@
         keywords: cards.map((card) => card.palavra_chave).join(" · "),
         tone,
         reading,
+        practical: "Escolha uma atitude concreta para lidar com os desafios da tiragem e avance com calma, sem ignorar os pontos de atenção.",
         love: fiveCardAdvice.love[areaLevels.love],
         work: fiveCardAdvice.work[areaLevels.work],
         money: fiveCardAdvice.money[areaLevels.money],
         combinationNumber: getFiveCardCombinationNumber(cardIds),
         positions
       };
+    }
+
+    function createSingleCardResponse(card, question) {
+      const promptFor = (area) => `Na área de ${area}, reflita sobre como ${card.essencia} pode se manifestar na sua situação.`;
+      if (question === "health") {
+        return {
+          keywords: card.palavra_chave,
+          tone: "",
+          reading: "As interpretações para saúde serão adicionadas futuramente. Por enquanto, esta opção permite apenas selecionar uma carta."
+        };
+      }
+
+      const response = {
+        keywords: card.palavra_chave,
+        tone: "",
+        reading: `${card.essencia}. ${card.significado}.`,
+        love: promptFor("amor"),
+        work: promptFor("trabalho"),
+        money: promptFor("dinheiro")
+      };
+      if (question === "complete") {
+        response.practical = `Observe como ${card.palavra_chave.toLocaleLowerCase("pt-BR")} pode orientar uma atitude consciente no seu dia a dia.`;
+      }
+      return response;
     }
 
     function updateCardOptions() {
@@ -973,12 +1004,44 @@
       });
     }
 
+    function updateReadingControls() {
+      const count = Number(readingCount.value);
+      const isManual = readingMode.value === "manual";
+      const isFiveCardReading = count === 5;
+      const healthOption = readingQuestion.querySelector('option[value="health"]');
+      const majorOption = readingDeck.querySelector('option[value="major"]');
+
+      healthOption.disabled = count !== 1;
+      if (count !== 1 && readingQuestion.value === "health") readingQuestion.value = "complete";
+      majorOption.disabled = isFiveCardReading;
+      if (isFiveCardReading) readingDeck.value = "mixed";
+      readingDeck.disabled = isFiveCardReading;
+
+      readingCardSelects.forEach((select, index) => {
+        const control = select.closest(".reading-control");
+        const isVisible = index < count;
+        control.hidden = !isVisible || !isManual;
+        select.required = isVisible && isManual;
+        select.value = isVisible ? select.value : "";
+        control.querySelector(".reading-position-label").textContent = isFiveCardReading
+          ? fiveCardPositionNames[index]
+          : `Carta ${index + 1}`;
+      });
+
+      readingForm.querySelector('button[type="submit"]').hidden = !isManual;
+      randomReadingButton.hidden = isManual;
+      randomReadingButton.textContent = `Sortear ${count === 1 ? "uma" : count === 3 ? "três" : "cinco"} ${count === 1 ? "carta" : "cartas"}`;
+    }
+
     function clearReading() {
       readingResult.replaceChildren();
       readingResult.setAttribute("aria-busy", "false");
-      readingStatus.textContent = Number(readingCount.value) === 5
-        ? "A síntese considera a combinação; cada carta também será interpretada na sua posição da Cruz de cinco."
-        : "A leitura apresenta a síntese da combinação, sem atribuir significados a posições específicas.";
+      const count = Number(readingCount.value);
+      readingStatus.textContent = count === 5
+        ? "A leitura considera a combinação e interpreta cada carta na sua posição da Cruz de cinco."
+        : count === 1
+          ? "A leitura considera o significado da carta escolhida."
+          : "A leitura apresenta a síntese da combinação.";
     }
 
     function resolveCombinationGame(deck, count) {
@@ -1006,18 +1069,25 @@
     }
 
     function renderCombinationReading(response, selectedCards) {
-      const advice = [
-        ["Conselho prático", response.practical],
-        ["Amor", response.love],
-        ["Trabalho", response.work],
-        ["Dinheiro", response.money]
-      ].filter(([, text]) => text);
+      const selectedQuestion = readingQuestion.value;
+      const questionLabels = { love: "Amor", work: "Trabalho", money: "Dinheiro" };
+      const advice = selectedQuestion === "complete"
+        ? [
+          ["Conselho prático", response.practical],
+          ["Amor", response.love],
+          ["Trabalho", response.work],
+          ["Dinheiro", response.money]
+        ].filter(([, text]) => text)
+        : selectedQuestion === "health"
+          ? []
+          : response[selectedQuestion]
+            ? [[questionLabels[selectedQuestion], response[selectedQuestion]]]
+            : [];
 
       readingResult.innerHTML = `
         <article class="reading-result-card">
           <div class="reading-result-top">
             <div class="reading-cards">${selectedCards.map((card) => `<span class="reading-card-name">${escapeHtml(card.nome)}</span>`).join("")}</div>
-            <span class="reading-tone">${escapeHtml(response.tone)}</span>
           </div>
           ${response.positions ? `
             <div class="reading-positions">
@@ -1031,12 +1101,12 @@
             <p class="reading-keywords"><strong>Combinação na planilha · </strong>${response.combinationNumber.toLocaleString("pt-BR")} de ${FIVE_CARD_COMBINATION_COUNT.toLocaleString("pt-BR")}</p>` : ""}
           <p class="reading-keywords"><strong>Palavras-chave · </strong>${escapeHtml(response.keywords)}</p>
           <p class="reading-copy">${escapeHtml(response.reading)}</p>
-          <div class="reading-advice">${advice.map(([title, text]) => `
+          ${advice.length ? `<div class="reading-advice">${advice.map(([title, text]) => `
             <article>
               <h3>${escapeHtml(title)}</h3>
               <p>${escapeHtml(text)}</p>
             </article>`).join("")}
-          </div>
+          </div>` : ""}
         </article>`;
     }
 
@@ -1061,16 +1131,22 @@
           response = createFiveCardResponse(selectedIds.map(Number).sort((a, b) => a - b));
         } else {
           const game = resolveCombinationGame(deck, count);
-          const data = await loadCombinationData(game.deck, game.count);
-          response = data[key];
+          if (count === 1) {
+            const card = tarotCards.find((item) => String(item.id) === selectedIds[0]);
+            if (!card) throw new Error("A carta selecionada não existe no baralho carregado.");
+            response = createSingleCardResponse(card, readingQuestion.value);
+          } else {
+            const data = await loadCombinationData(game.deck, game.count);
+            response = data[key];
+          }
         }
-        if (!response || typeof response.reading !== "string" || typeof response.tone !== "string") {
+        if (!response || typeof response.reading !== "string") {
           throw new Error(`A combinação ${key} não foi encontrada no arquivo de respostas.`);
         }
         const selectedCards = (count === 5 ? [...selectedIds].sort((a, b) => Number(a) - Number(b)) : selectedIds)
           .map((id) => tarotCards.find((card) => String(card.id) === id));
         renderCombinationReading(response, selectedCards);
-        readingStatus.textContent = "Combinação encontrada.";
+        readingStatus.textContent = count === 1 ? "Leitura encontrada." : "Combinação encontrada.";
       } catch (error) {
         console.error(error);
         readingResult.innerHTML = '<p class="error-state">Não foi possível consultar esta combinação. Verifique se os arquivos de respostas estão na mesma pasta e tente novamente.</p>';
@@ -1138,28 +1214,24 @@
     });
     if (window.location.hash === "#biblioteca") libraryMenu.open = true;
 
+    readingMode.addEventListener("change", () => {
+      readingCardSelects.forEach((select) => { select.value = ""; });
+      updateReadingControls();
+      updateCardOptions();
+      clearReading();
+    });
     readingDeck.addEventListener("change", () => {
       readingCardSelects.forEach((select) => { select.value = ""; });
       updateCardOptions();
       clearReading();
     });
     readingCount.addEventListener("change", () => {
-      const usesFiveCards = Number(readingCount.value) === 5;
-      const majorOption = readingDeck.querySelector('option[value="major"]');
-      majorOption.disabled = usesFiveCards;
-      if (usesFiveCards) readingDeck.value = "mixed";
-      readingDeck.disabled = usesFiveCards;
-      readingCardSelects.forEach((select, index) => {
-        select.closest(".reading-control").hidden = index >= Number(readingCount.value);
-        select.required = index < Number(readingCount.value);
-        select.value = "";
-        const label = select.closest(".reading-control").querySelector(".reading-position-label");
-        label.textContent = usesFiveCards ? fiveCardPositionNames[index] : `Carta ${index + 1}`;
-      });
-      randomReadingButton.textContent = usesFiveCards ? "Sortear cinco cartas" : "Sortear três cartas";
+      readingCardSelects.forEach((select) => { select.value = ""; });
+      updateReadingControls();
       updateCardOptions();
       clearReading();
     });
+    readingQuestion.addEventListener("change", clearReading);
     readingCardSelects.forEach((select) => select.addEventListener("change", () => {
       updateCardOptions();
       clearReading();
@@ -1194,16 +1266,15 @@
         document.querySelector("#major-count").textContent = data.filter((card) => card.grupo === "maior").length;
         document.querySelector("#suit-count").textContent = new Set(data.map((card) => card.naipe).filter(Boolean)).size;
         renderCards();
+        readingMode.disabled = false;
         readingDeck.disabled = false;
         readingCount.disabled = false;
+        readingQuestion.disabled = false;
         readingCardSelects.forEach((select) => { select.disabled = false; });
         readingForm.querySelector('button[type="submit"]').disabled = false;
         randomReadingButton.disabled = false;
+        updateReadingControls();
         updateCardOptions();
-        readingCardSelects.forEach((select, index) => {
-          select.closest(".reading-control").hidden = index >= Number(readingCount.value);
-        });
-        randomReadingButton.textContent = "Sortear três cartas";
         clearReading();
       })
       .catch((error) => {
