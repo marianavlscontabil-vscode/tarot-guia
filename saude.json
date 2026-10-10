@@ -1,0 +1,242 @@
+[
+  {
+    "id": 0,
+    "card": "O Louco",
+    "keywords": "Novo começo",
+    "advice": "Permita-se recomeçar com leveza, mas cuide de si durante o caminho. Experimente hábitos saudáveis aos poucos, respeitando seus limites e sem ignorar sinais do corpo."
+  },
+  {
+    "id": 1,
+    "card": "I. O Mago",
+    "keywords": "Iniciativa",
+    "advice": "Você pode dar o primeiro passo hoje: escolha uma atitude possível para cuidar de si e coloque-a em prática. Pequenas ações consistentes valem mais do que tentar mudar tudo de uma vez."
+  },
+  {
+    "id": 2,
+    "card": "II. A Sacerdotisa",
+    "keywords": "Intuição",
+    "advice": "Escute o que seu corpo e suas emoções estão tentando comunicar. Reserve um momento de silêncio e descanso; se algo preocupa você ou persiste, procure orientação profissional em vez de depender apenas da intuição."
+  },
+  {
+    "id": 3,
+    "card": "III. A Imperatriz",
+    "keywords": "Abundância",
+    "advice": "Nutra-se com carinho: cuide da alimentação, do sono, do conforto e dos vínculos que fazem bem. Seu bem-estar também cresce quando você se trata com gentileza, sem cobranças excessivas."
+  },
+  {
+    "id": 4,
+    "card": "IV. O Imperador",
+    "keywords": "Estrutura",
+    "advice": "Crie uma rotina que dê sustentação à sua saúde, com horários realistas para descansar, se alimentar e se movimentar. Organização ajuda, mas mantenha flexibilidade para respeitar suas necessidades."
+  },
+  {
+    "id": 5,
+    "card": "V. O Hierofante",
+    "keywords": "Tradição",
+    "advice": "Busque apoio em fontes confiáveis e profissionais qualificados. Orientações de saúde podem ajudar você a construir hábitos seguros; não precisa seguir conselhos populares que não combinam com sua realidade."
+  },
+  {
+    "id": 6,
+    "card": "VI. Os Amantes",
+    "keywords": "Escolha",
+    "advice": "Faça escolhas de cuidado que estejam alinhadas com o que é importante para você. Considere também como seus relacionamentos afetam seu bem-estar e permita-se pedir apoio quando precisar."
+  },
+  {
+    "id": 7,
+    "card": "VII. O Carro",
+    "keywords": "Avanço",
+    "advice": "Direcione sua energia para uma meta de saúde realista e avance passo a passo. Evite ultrapassar seus limites para provar algo: constância e recuperação também fazem parte do progresso."
+  },
+  {
+    "id": 8,
+    "card": "VIII. A Força",
+    "keywords": "Coragem",
+    "advice": "Coragem também é reconhecer quando precisa parar, descansar ou pedir ajuda. Trate-se com paciência e enfrente os desafios sem transformar o autocuidado em uma disputa contra si mesmo."
+  },
+  {
+    "id": 9,
+    "card": "IX. O Eremita",
+    "keywords": "Recolhimento",
+    "advice": "Talvez seja hora de diminuir o ritmo e reservar espaço para você. Descanso e reflexão podem ajudar, mas evite se isolar se estiver sofrendo; conversar com alguém de confiança também é cuidado."
+  },
+  {
+    "id": 10,
+    "card": "X. A Roda da Fortuna",
+    "keywords": "Ciclos",
+    "advice": "Seu bem-estar pode variar de um dia para outro. Procure manter alguns hábitos de apoio mesmo nas fases difíceis e lembre-se de que mudanças no corpo ou no humor merecem atenção, não culpa."
+  },
+  {
+    "id": 11,
+    "card": "XI. A Justiça",
+    "keywords": "Equilíbrio",
+    "advice": "Observe com honestidade como seus hábitos influenciam sua qualidade de vida, sem se julgar. Busque equilíbrio e, diante de sintomas ou dúvidas, tome decisões com orientação de profissionais de saúde."
+  },
+  {
+    "id": 12,
+    "card": "XII. O Enforcado",
+    "keywords": "Pausa",
+    "advice": "Faça uma pausa e reveja o que está exigindo demais de você. Talvez seja necessário mudar o ritmo ou a perspectiva; não use a espera como motivo para adiar uma avaliação de saúde de que precisa."
+  },
+  {
+    "id": 13,
+    "card": "XIII. A Morte",
+    "keywords": "Transformação",
+    "advice": "Esta carta fala de transformação, não de morte física nem de previsão médica. Deixe para trás hábitos que já não ajudam e escolha mudanças sustentáveis, dando tempo para se adaptar e buscando apoio quando necessário."
+  },
+  {
+    "id": 14,
+    "card": "XIV. A Temperança",
+    "keywords": "Moderação",
+    "advice": "Procure equilíbrio em vez de extremos. Respeite seus horários, seus limites e suas necessidades, e evite soluções milagrosas ou mudanças radicais sem orientação adequada."
+  },
+  {
+    "id": 15,
+    "card": "XV. O Diabo",
+    "keywords": "Apego",
+    "advice": "Perceba se algum hábito, excesso ou cobrança está tomando mais espaço do que gostaria. Em vez de se culpar, busque apoio para fazer mudanças seguras; se sentir perda de controle, conversar com um profissional pode ajudar."
+  },
+  {
+    "id": 16,
+    "card": "XVI. A Torre",
+    "keywords": "Ruptura",
+    "advice": "Se algo abalou sua rotina ou seu emocional, concentre-se primeiro no que oferece segurança e apoio. Não ignore sinais importantes do corpo e procure atendimento quando houver sintomas preocupantes."
+  },
+  {
+    "id": 17,
+    "card": "XVII. A Estrela",
+    "keywords": "Esperança",
+    "advice": "Cultive esperança sem exigir que tudo melhore de uma vez. Pequenos cuidados, apoio afetivo e acompanhamento adequado podem ajudar você a atravessar esta fase com mais confiança."
+  },
+  {
+    "id": 18,
+    "card": "XVIII. A Lua",
+    "keywords": "Ilusão",
+    "advice": "Nem toda preocupação é uma certeza, e nem todo sintoma deve ser ignorado. Procure informações confiáveis, evite tirar conclusões precipitadas e converse com um profissional se algo estiver causando medo ou persistir."
+  },
+  {
+    "id": 19,
+    "card": "XIX. O Sol",
+    "keywords": "Êxito",
+    "advice": "Valorize o que lhe traz energia e alegria, mantendo espaço para descanso e recuperação. Aproveite os bons momentos sem esquecer os cuidados básicos e a atenção aos limites do seu corpo."
+  },
+  {
+    "id": 20,
+    "card": "XX. O Julgamento",
+    "keywords": "Despertar",
+    "advice": "Este é um convite para rever suas prioridades e retomar cuidados que ficaram de lado. Se houver algo que você vem adiando, considere marcar uma consulta ou buscar apoio para dar o próximo passo."
+  },
+  {
+    "id": 21,
+    "card": "XXI. O Mundo",
+    "keywords": "Conclusão",
+    "advice": "Reconheça o caminho que já percorreu e celebre cada avanço no autocuidado. Para manter o bem-estar, continue com hábitos que funcionam para você e ajuste a rotina quando suas necessidades mudarem."
+  },
+  {
+    "id": 22,
+    "card": "Ás de Paus",
+    "keywords": "Iniciativa",
+    "advice": "Aproveite a disposição para iniciar um hábito simples que faça bem a você. Comece de forma gradual, respeite sua condição física e não confunda entusiasmo com a obrigação de fazer tudo imediatamente."
+  },
+  {
+    "id": 23,
+    "card": "Valete de Paus",
+    "keywords": "Entusiasmo",
+    "advice": "Experimente maneiras leves e prazerosas de cuidar da saúde, sem se cobrar perfeição. Curiosidade é bem-vinda; antes de testar métodos ou suplementos, confirme se são seguros para você."
+  },
+  {
+    "id": 24,
+    "card": "Rainha de Paus",
+    "keywords": "Determinação",
+    "advice": "Confie na sua capacidade de cuidar de si, mas lembre-se de que força não significa dar conta de tudo. Preserve momentos de descanso e aceite ajuda sem sentir que isso diminui sua autonomia."
+  },
+  {
+    "id": 25,
+    "card": "Rei de Paus",
+    "keywords": "Liderança",
+    "advice": "Assuma a liderança do seu autocuidado com metas claras e possíveis. Use sua energia para criar consistência, não para ignorar cansaço, dor ou a necessidade de procurar orientação."
+  },
+  {
+    "id": 26,
+    "card": "Ás de Copas",
+    "keywords": "Novo amor",
+    "advice": "Ofereça a si o mesmo acolhimento que daria a alguém querido. Cuide das emoções, fortaleça vínculos seguros e permita-se buscar ajuda se estiver sobrecarregado ou sofrendo."
+  },
+  {
+    "id": 27,
+    "card": "Valete de Copas",
+    "keywords": "Recado do coração",
+    "advice": "Preste atenção às emoções que pedem espaço e expressão. Escrever, conversar ou fazer algo criativo pode ajudar; se o sofrimento for intenso ou persistente, procure apoio qualificado."
+  },
+  {
+    "id": 28,
+    "card": "Rainha de Copas",
+    "keywords": "Empatia",
+    "advice": "Sua sensibilidade merece cuidado tanto quanto a das pessoas ao seu redor. Estabeleça limites, reserve tempo para recuperar suas energias e lembre-se de que você também merece receber apoio."
+  },
+  {
+    "id": 29,
+    "card": "Rei de Copas",
+    "keywords": "Equilíbrio emocional",
+    "advice": "Busque responder às emoções com calma, sem precisar escondê-las. Pausas, conversas honestas e apoio profissional quando necessário podem ajudar você a atravessar momentos difíceis com mais equilíbrio."
+  },
+  {
+    "id": 30,
+    "card": "Ás de Ouros",
+    "keywords": "Nova oportunidade",
+    "advice": "Aproveite esta oportunidade para investir em uma base sólida de bem-estar: sono, alimentação, movimento possível e acompanhamento preventivo. Escolha um passo prático que caiba na sua rotina."
+  },
+  {
+    "id": 31,
+    "card": "Valete de Ouros",
+    "keywords": "Aplicação",
+    "advice": "Cuide de si com paciência e regularidade. Aprenda sobre suas necessidades, acompanhe hábitos sem obsessão e transforme uma intenção saudável em uma prática pequena e sustentável."
+  },
+  {
+    "id": 32,
+    "card": "Rainha de Ouros",
+    "keywords": "Praticidade",
+    "advice": "Dê atenção ao corpo e ao ambiente em que vive: descanso, refeições, conforto e organização podem apoiar seu bem-estar. Não deixe suas próprias necessidades sempre por último."
+  },
+  {
+    "id": 33,
+    "card": "Rei de Ouros",
+    "keywords": "Sucesso material",
+    "advice": "Valorize a estabilidade e os cuidados que ajudam você a se manter bem ao longo do tempo. Planeje sua rotina e seus recursos, mas não adie atendimento necessário por priorizar trabalho ou obrigações."
+  },
+  {
+    "id": 34,
+    "card": "Ás de Espadas",
+    "keywords": "Verdade",
+    "advice": "Busque clareza sobre o que está sentindo e faça perguntas quando tiver dúvidas. Informação confiável ajuda a decidir; evite autodiagnósticos e procure avaliação profissional para sintomas ou preocupações."
+  },
+  {
+    "id": 35,
+    "card": "Valete de Espadas",
+    "keywords": "Vigilância",
+    "advice": "Observe mudanças no corpo e no humor sem ficar em estado constante de alerta. Anote dúvidas para conversar com um profissional e limite pesquisas que aumentem sua ansiedade sem oferecer respostas confiáveis."
+  },
+  {
+    "id": 36,
+    "card": "Rainha de Espadas",
+    "keywords": "Lucidez",
+    "advice": "Olhe para sua saúde com lucidez e gentileza. Separe fatos de receios, estabeleça limites que protejam seu bem-estar e peça explicações claras aos profissionais que acompanham você."
+  },
+  {
+    "id": 37,
+    "card": "Rei de Espadas",
+    "keywords": "Julgamento",
+    "advice": "Tome decisões de saúde com informação confiável e pensamento crítico, sem se deixar levar por promessas milagrosas. Considere orientações profissionais e faça perguntas até compreender suas opções."
+  },
+  {
+    "id": 38,
+    "card": "A Riqueza",
+    "keywords": "Prosperidade",
+    "advice": "Prosperidade também é ter energia, tempo e condições para cuidar de si. Invista no que sustenta seu bem-estar e lembre-se de que saúde não se mede por produtividade ou recursos materiais."
+  },
+  {
+    "id": 39,
+    "card": "A Vida",
+    "keywords": "Vitalidade",
+    "advice": "Celebre a vitalidade com cuidado e presença: respeite o descanso, movimente-se de forma adequada para você e valorize os pequenos sinais de bem-estar. Se algo preocupa ou persiste, procure orientação profissional."
+  }
+]

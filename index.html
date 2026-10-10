@@ -822,6 +822,7 @@
     const readingResult = document.querySelector("#reading-result");
     const randomReadingButton = document.querySelector("#random-reading");
     let tarotCards = [];
+    let healthAdviceData = null;
     let activeGroup = "todos";
     const combinationData = { major: null, mixed: null };
     const COMBINATION_GAMES = {
@@ -965,13 +966,16 @@
       };
     }
 
-    function createSingleCardResponse(card, question) {
+    function createSingleCardResponse(card, question, healthAdviceData) {
       const promptFor = (area) => `Na área de ${area}, reflita sobre como ${card.essencia} pode se manifestar na sua situação.`;
       if (question === "health") {
+        const advice = healthAdviceData && healthAdviceData.get(card.id);
+        if (!advice) throw new Error(`Não foi encontrada uma resposta de saúde para ${card.nome}.`);
         return {
           keywords: card.palavra_chave,
           tone: "",
-          reading: "As interpretações para saúde serão adicionadas futuramente. Por enquanto, esta opção permite apenas selecionar uma carta."
+          reading: `${card.essencia}. ${card.significado}.`,
+          health: advice
         };
       }
 
@@ -1068,6 +1072,34 @@
       return data;
     }
 
+    async function loadHealthAdviceData() {
+      if (healthAdviceData) return healthAdviceData;
+
+      const filename = "./saude.json";
+      const response = await fetch(filename);
+      if (!response.ok) throw new Error(`Não foi possível carregar ${filename} (HTTP ${response.status}).`);
+      const data = await response.json();
+      if (!Array.isArray(data) || data.length !== tarotCards.length) {
+        throw new Error(`${filename} não contém uma resposta de saúde para cada carta.`);
+      }
+
+      const cardsById = new Map(tarotCards.map((card) => [card.id, card]));
+      const adviceById = new Map();
+      data.forEach((entry) => {
+        const card = entry && cardsById.get(entry.id);
+        if (!card || entry.card !== card.nome || typeof entry.advice !== "string" || !entry.advice.trim() || adviceById.has(entry.id)) {
+          throw new Error(`${filename} contém uma resposta inválida ou duplicada.`);
+        }
+        adviceById.set(entry.id, entry.advice);
+      });
+      if (adviceById.size !== cardsById.size) {
+        throw new Error(`${filename} não contém respostas para todas as cartas do baralho.`);
+      }
+
+      healthAdviceData = adviceById;
+      return healthAdviceData;
+    }
+
     function renderCombinationReading(response, selectedCards) {
       const selectedQuestion = readingQuestion.value;
       const questionLabels = { love: "Amor", work: "Trabalho", money: "Dinheiro" };
@@ -1079,7 +1111,7 @@
           ["Dinheiro", response.money]
         ].filter(([, text]) => text)
         : selectedQuestion === "health"
-          ? []
+          ? [["Saúde", response.health]]
           : response[selectedQuestion]
             ? [[questionLabels[selectedQuestion], response[selectedQuestion]]]
             : [];
@@ -1101,6 +1133,7 @@
             <p class="reading-keywords"><strong>Combinação na planilha · </strong>${response.combinationNumber.toLocaleString("pt-BR")} de ${FIVE_CARD_COMBINATION_COUNT.toLocaleString("pt-BR")}</p>` : ""}
           <p class="reading-keywords"><strong>Palavras-chave · </strong>${escapeHtml(response.keywords)}</p>
           <p class="reading-copy">${escapeHtml(response.reading)}</p>
+          ${selectedQuestion === "health" ? '<p class="reading-note">Esta leitura é reflexiva e não substitui a avaliação de um profissional de saúde.</p>' : ""}
           ${advice.length ? `<div class="reading-advice">${advice.map(([title, text]) => `
             <article>
               <h3>${escapeHtml(title)}</h3>
@@ -1134,7 +1167,8 @@
           if (count === 1) {
             const card = tarotCards.find((item) => String(item.id) === selectedIds[0]);
             if (!card) throw new Error("A carta selecionada não existe no baralho carregado.");
-            response = createSingleCardResponse(card, readingQuestion.value);
+            const healthAdvice = readingQuestion.value === "health" ? await loadHealthAdviceData() : null;
+            response = createSingleCardResponse(card, readingQuestion.value, healthAdvice);
           } else {
             const data = await loadCombinationData(game.deck, game.count);
             response = data[key];
@@ -1143,14 +1177,17 @@
         if (!response || typeof response.reading !== "string") {
           throw new Error(`A combinação ${key} não foi encontrada no arquivo de respostas.`);
         }
+        if (readingQuestion.value === "health" && typeof response.health !== "string") {
+          throw new Error("Não foi encontrada uma resposta de saúde para a carta selecionada.");
+        }
         const selectedCards = (count === 5 ? [...selectedIds].sort((a, b) => Number(a) - Number(b)) : selectedIds)
           .map((id) => tarotCards.find((card) => String(card.id) === id));
         renderCombinationReading(response, selectedCards);
         readingStatus.textContent = count === 1 ? "Leitura encontrada." : "Combinação encontrada.";
       } catch (error) {
         console.error(error);
-        readingResult.innerHTML = '<p class="error-state">Não foi possível consultar esta combinação. Verifique se os arquivos de respostas estão na mesma pasta e tente novamente.</p>';
-        readingStatus.textContent = "Falha ao carregar a resposta da combinação.";
+        readingResult.innerHTML = `<p class="error-state">Não foi possível concluir a leitura. ${escapeHtml(error.message || "Verifique os arquivos de respostas e tente novamente.")}</p>`;
+        readingStatus.textContent = "Falha ao carregar a resposta da leitura.";
       } finally {
         readingResult.setAttribute("aria-busy", "false");
         readingForm.querySelector('button[type="submit"]').disabled = false;
