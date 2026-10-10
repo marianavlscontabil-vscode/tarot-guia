@@ -818,6 +818,11 @@
     let tarotCards = [];
     let activeGroup = "todos";
     const combinationData = { major: null, mixed: null };
+    const COMBINATION_GAMES = {
+      major3: { deck: "major", count: 3, label: "Arcanos Maiores · 3 cartas", filename: "./combinacoes-3-maiores.json" },
+      mixed3: { deck: "mixed", count: 3, label: "Baralho completo · 3 cartas", filename: "./combinacoes-3-mistas.json" },
+      mixed5: { deck: "mixed", count: 5, label: "Baralho completo · 5 cartas · Cruz", filename: null }
+    };
     const FIVE_CARD_COMBINATION_COUNT = 658008;
     const fiveCardPositionNames = ["Situação", "Desafio", "Base (inconsciente)", "Passado recente", "Resultado"];
     const fiveCardPositionMeanings = {
@@ -976,14 +981,25 @@
         : "A leitura apresenta a síntese da combinação, sem atribuir significados a posições específicas.";
     }
 
-    async function loadCombinationData(deck) {
+    function resolveCombinationGame(deck, count) {
+      const key = `${deck}${count}`;
+      return COMBINATION_GAMES[key] || {
+        deck,
+        count,
+        label: `${deck === "major" ? "Arcanos Maiores" : "Baralho completo"} · ${count} cartas`,
+        filename: deck === "major" ? "./combinacoes-3-maiores.json" : "./combinacoes-3-mistas.json"
+      };
+    }
+
+    async function loadCombinationData(deck, count = 3) {
+      const game = resolveCombinationGame(deck, count);
+      if (game.filename === null) return null;
       if (combinationData[deck]) return combinationData[deck];
-      const filename = deck === "major" ? "./combinacoes-3-maiores.json" : "./combinacoes-3-mistas.json";
-      const response = await fetch(filename);
-      if (!response.ok) throw new Error(`Não foi possível carregar ${filename} (HTTP ${response.status}).`);
+      const response = await fetch(game.filename);
+      if (!response.ok) throw new Error(`Não foi possível carregar ${game.filename} (HTTP ${response.status}).`);
       const data = await response.json();
       if (!data || typeof data !== "object" || Array.isArray(data)) {
-        throw new Error(`O arquivo ${filename} não contém uma tabela de combinações válida.`);
+        throw new Error(`O arquivo ${game.filename} não contém uma tabela de combinações válida.`);
       }
       combinationData[deck] = data;
       return data;
@@ -1044,7 +1060,8 @@
         if (count === 5) {
           response = createFiveCardResponse(selectedIds.map(Number).sort((a, b) => a - b));
         } else {
-          const data = await loadCombinationData(deck);
+          const game = resolveCombinationGame(deck, count);
+          const data = await loadCombinationData(game.deck, game.count);
           response = data[key];
         }
         if (!response || typeof response.reading !== "string" || typeof response.tone !== "string") {
